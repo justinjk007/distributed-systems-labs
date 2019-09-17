@@ -54,4 +54,76 @@
 \newpage % Go to the next page after title page
 #+end_export
 
-* Task 1
+* Task #1: TCP Server
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+The sample code given to support the lab had laid out all the streams necessary to make
+the connection between a server and a client, so I learned how to collect an input from
+the user with the =Scanner= class on the client side and sent it the server using the
+=PrintStream= object. Once the data reached the server it was read using the
+=DataInputStream= object. Then it was processed on the server side and sent back to the
+client using the same method.
+
+Understanding what's the purpose of each of the Streams and how they make the interaction between the client and server possible was one of the challenges faced.
+
+I learned about the =ServerSocket= class and various data streams used to connect between
+a server and client when processing and exchanging data.
+
+* Task #2: Caesar Cipher
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+For this task we had to sent a number and a string over to the server for processing. So a
+simple read was not enough to sent the string over like number in Task 1. So first I
+played around with a byte array, but then this required converting to string, process,
+convert back to string and then sending it back. So instead I used =readLine()= from
+=DataInputStream= class and sent it over to the server by simply printing it using the
+=PrintStream= object. Now on the server side I used the text and number to cipher and
+returned the result.
+
+Learning how to sent large data like a string was a challenge in this task. I kept on having problems because I was trying to read everything and send everything together, but then I figured I could read,send and repeat to send multiple values.
+
+Learned how to send strings across and socket connection. Also learned what Caesar cipher
+is.
+
+* Task #3: Repeated Inputs from Client
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+To repeat the reading and data transfer process, I added and infinite =while= loop which
+can be interrupted from the command line. I did this on both client and server part, so
+the connection lasted until someone send stop signal at the keyboard.
+
+No challenges were faced in completing this task. Only issue was finding out where to add
+the loop while making sure exceptions are cached every time. Which was done using simple
+trial and error.
+
+Learned that a simple while loop can be used to create a connection that stayed alive
+until a user required it too.
+
+* Task #4: Multi-threaded Server
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+For this task, I had to combine all the above tasks together. So I put together the while
+loop from task 3 and the number reading technique from task one first. Then all I had to
+do on the client side was to listen to the server forever. On the server side, I added a
+new class extended from the =Thread= class . In the =run= method of the new class I added
+the code to accept a connection such that each client can be served using one
+thread. Before creating the thread, I introduced a limit variable that will limit the
+number of connections and return back busy if the server has already reached the limit.
+
+Learning how to incorporate multi-threading into the server-client system was a
+challenge. Allocating resource to a client and then reserving it once the connection
+closes was also a challenge, which I was not able to implement correctly.
+
+I learned how to use multi-threading to serve as daemon for multiple clients. I learned
+how to handle resources and limit them to serve clients so the server won't get exhausted
+from resources.
+
+# Submission confirmation number: 3ca01447-ecc1-4055-8f18-f55091e9bb20
