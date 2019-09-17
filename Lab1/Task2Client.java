@@ -1,38 +1,44 @@
-import java.util.Scanner;  // Import the Scanner class
-import java.io.*;
-import java.io.DataInputStream;
+import java.io.*; 
+import java.io.DataInputStream; 
 import java.net.*;
 
-class Task2Client {
-    public static void main(String arg[])throws Exception {
-	try {
-	    Socket client=new Socket("127.0.0.1",7896);
-	    DataInputStream r=new DataInputStream(client.getInputStream());
-	    PrintStream w=new PrintStream(client.getOutputStream());
-	    DataInputStream in=new DataInputStream(System.in);
-	    System.out.println("Connection established with server");
-	    Scanner scanner_obj = new Scanner(in);  // Create a Scanner object
+public class Task2Client {
 
-	    System.out.print("Enter string to decipher: ");
-	    String text = scanner_obj.nextLine();
-	    byte[] byte_array = text.getBytes();
-	    w.write(byte_array,0,byte_array.length);
+	/**
+	 * @param args
+	 */
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) throws Exception {
+		
+		try {
+	        Socket client=new Socket("127.0.0.1",7896); 
+	        DataInputStream r=new DataInputStream(client.getInputStream()); 
+	        PrintStream w=new PrintStream(client.getOutputStream()); 
+	       
+	        //get input from keyboard
+	        System.out.println("Enter text to decypher");
+	        DataInputStream in=new DataInputStream(System.in); 
+			String text = in.readLine();
+			
+	        //send number to server
+	        w.println(text);
+	        
+	        System.out.println("Enter number to shift by");
+	        String number = in.readLine();
+	        w.write(Integer.parseInt(number));
+	        
+	        //read answer from server and print it
+	        String answer = r.readLine();
+	        System.out.println(answer);
+	        
+			}catch (UnknownHostException e){
+				System.out.println("Sock:"+e.getMessage()); 
+			}catch (EOFException e){
+				System.out.println("EOF:"+e.getMessage());
+			}catch (IOException e){
+				System.out.println("IO:"+e.getMessage());
+			}
 
-	    System.out.print("Enter shift number: ");
-	    int number = scanner_obj.nextInt();  // Read user input
-	    w.write(number);
-
-	    byte[] ans_array = new byte[100];
-	    r.read(ans_array);
-	    String ans_text = new String(ans_array);
-	    System.out.println("Shifted String received: "+ans_text);
-
-	}catch (UnknownHostException e){
-	    System.out.println("Sock:"+e.getMessage());
-	}catch (EOFException e){
-	    System.out.println("EOF:"+e.getMessage());
-	}catch (IOException e){
-	    System.out.println("IO:"+e.getMessage());
 	}
-    }
+
 }
