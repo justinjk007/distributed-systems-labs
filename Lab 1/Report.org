@@ -1,5 +1,5 @@
 #+OPTIONS: toc:nil num:nil
-#+TITLE: Lab 1 - Report
+#+TITLE: LAB 1 - REPORT
 #+AUTHOR: Justin Kaipada - 100590167
 #+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [a4paper,12pt]
