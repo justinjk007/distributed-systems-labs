@@ -1,5 +1,6 @@
 #+OPTIONS: toc:nil num:nil
 #+TITLE: Lab 1 - Report
+#+AUTHOR: Justin Kaipada - 100590167
 #+LATEX_CLASS: article
 #+LATEX_CLASS_OPTIONS: [a4paper,12pt]
 #+LATEX_HEADER: \usepackage[T1]{fontenc} % For times new roman font
