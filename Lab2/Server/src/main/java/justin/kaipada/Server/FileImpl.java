@@ -1,3 +1,5 @@
+package justin.kaipada.Server;
+
 import java.io.*;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
