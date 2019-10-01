@@ -1,0 +1,5 @@
+* MVN notes
+
+#+begin_src sh
+mvn archetype:generate -DgroupId=justin.kaipada.Pre-Lab2 -DartifactId=Pre-Lab2 -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+#+end_src
