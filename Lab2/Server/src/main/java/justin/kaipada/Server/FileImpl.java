@@ -1,32 +1,45 @@
-// package justin.kaipada.Server;
-
 import java.io.*;
 import java.rmi.*;
 import java.rmi.server.UnicastRemoteObject;
 
 public class FileImpl extends UnicastRemoteObject
-  implements FileInterface {
+        implements FileInterface {
 
-   private String name;
+    private String name;
 
-   public FileImpl(String s) throws RemoteException{
-      super();
-      name = s;
-   }
+    public FileImpl(String s) throws RemoteException{
+        super();
+        name = s;
+    }
 
-   public byte[] downloadFile(String fileName){
-      try {
-         File file = new File(fileName);
-         byte buffer[] = new byte[(int)file.length()];
-         BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
-	 System.out.println("Client conected: "+UnicastRemoteObject.getClientHost());
-         input.read(buffer,0,buffer.length);
-         input.close();
-         return(buffer);
-      } catch(Exception e){
-         System.out.println("FileImpl: "+e.getMessage());
-         e.printStackTrace();
-         return(null);
-      }
-   }
+    public byte[] downloadFile(String fileName){
+        try {
+            File file = new File(fileName);
+            byte buffer[] = new byte[(int)file.length()];
+            BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
+            System.out.println(UnicastRemoteObject.getClientHost());
+            input.read(buffer,0,buffer.length);
+            input.close();
+            return(buffer);
+        } catch(Exception e){
+            System.out.println("FileImpl: "+e.getMessage());
+            e.printStackTrace();
+            return(null);
+        }
+    }
+
+    public void uploadFile(byte[] content, String filename){
+        try {
+            File file = new File(filename);
+            BufferedOutputStream output = new
+                    BufferedOutputStream(new FileOutputStream(file));
+            output.write(content,0,content.length);
+            output.flush();
+            System.out.println("File upload complete");
+            output.close();
+        } catch(Exception e) {
+            System.err.println("FileServer exception: "+ e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
