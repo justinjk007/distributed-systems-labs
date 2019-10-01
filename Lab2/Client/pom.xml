@@ -74,7 +74,7 @@
 	  <artifactId>exec-maven-plugin</artifactId>
 	  <version>1.2.1</version>
 	  <configuration>
-	    <!-- <mainClass>justin.kaipada.Client.FileClient</mainClass> -->
+	    <mainClass>justin.kaipada.Client.FileClient</mainClass>
 	    <argument>-Djava.library.path=${project.build.directory}/lib</argument>
 	    <argument>-classpath</argument>
 	    <classpath />
@@ -82,9 +82,6 @@
 	    <arguments>
 	      <argument>test.txt justin-Precision-3520</argument>
 	    </arguments>
-	    <!-- <commandlineargs> -->
-	    <!--   <commandlineArg>-Djava.security.policy=/home/justin/Repos/Distributed-Systems-Lab/Lab2/Server/src/main/java/justin/kaipada/Server/policy.txt</commandlineArg> -->
-	    <!-- </commandlineArgs> -->
 	  </configuration>
 	</plugin>
       </plugins>

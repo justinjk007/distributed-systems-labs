@@ -1,3 +1,5 @@
+package justin.kaipada.Client;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

@@ -1,3 +1,5 @@
+package justin.kaipada.Client;
+
 import java.io.*;
 import java.rmi.*;
 
