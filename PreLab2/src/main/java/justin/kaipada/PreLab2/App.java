@@ -1,5 +1,9 @@
-package justin.kaipada.Pre-Lab2;
+package justin.kaipada.PreLab2;
 
+/**
+ * Hello world!
+ *
+ */
 public class App 
 {
     public static void main( String[] args )
