@@ -10,7 +10,7 @@ public class FileServer {
       }
       try {
          FileInterface fi = new FileImpl("FileServer");
-         Naming.rebind("//192.197.54.29/FileServer", fi);
+         Naming.rebind("//10.150.16.139/FileServer", fi);
       } catch(Exception e) {
          System.out.println("FileServer: "+e.getMessage());
          e.printStackTrace();
