@@ -1,3 +1,5 @@
 *.class
 *.tex
 *.pdf
+
+target/*
