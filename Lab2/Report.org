@@ -1,0 +1,120 @@
+#+OPTIONS: toc:nil num:nil
+#+TITLE: LAB 2 - REPORT
+#+AUTHOR: Justin Kaipada - 100590167
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper,12pt]
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % For times new roman font
+#+LATEX_HEADER: \usepackage{mathptmx} % For times new roman font
+#+LATEX_HEADER: \linespread{1.3} % Change line spacing
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{soul}
+#+LATEX_HEADER: \usepackage{helvet}
+#+LATEX_HEADER: \usepackage{listings}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage{xcolor-solarized}
+#+LATEX_HEADER: \definecolor{foreground}{RGB}{184, 83, 83} % For verbatim
+#+LATEX_HEADER: \definecolor{background}{RGB}{255, 231, 231} % For verbatim
+#+LATEX_HEADER: \let\OldTexttt\texttt
+#+LATEX_HEADER: \renewcommand{\texttt}[1]{\OldTexttt{\footnotesize\colorbox{background}{\textcolor{foreground}{#1}}}}
+#+LATEX_HEADER: \newenvironment{helvetica}{\fontfamily{phv}\selectfont}{\par}
+#+LATEX_HEADER: \usepackage{hyperref} % Make the hyper-links prettier
+#+LATEX_HEADER: \hypersetup{
+#+LATEX_HEADER: colorlinks=true,
+#+LATEX_HEADER: linkcolor=blue!70!white,
+#+LATEX_HEADER: urlcolor=blue!95!black
+#+LATEX_HEADER: }
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \setlist[1]{itemsep=5pt}
+#+LATEX_HEADER: \lstdefinelanguage{cpp}{
+#+LATEX_HEADER: language=C++,
+#+LATEX_HEADER: morekeywords={cerr,exit,string},
+#+LATEX_HEADER: deletekeywords={...},
+#+LATEX_HEADER: escapeinside={\%*}{*)},
+#+LATEX_HEADER: showspaces=false,
+#+LATEX_HEADER: showstringspaces=false,
+#+LATEX_HEADER: showtabs=false,
+#+LATEX_HEADER: stepnumber=1,
+#+LATEX_HEADER: tabsize=4,
+#+LATEX_HEADER: breakatwhitespace=false,
+#+LATEX_HEADER: breaklines=true,
+#+LATEX_HEADER: backgroundcolor=\color{solarized-base3},
+#+LATEX_HEADER: basicstyle=\scriptsize\ttfamily\color{solarized-base0},
+#+LATEX_HEADER: commentstyle=\itshape\color{solarized-base01},
+#+LATEX_HEADER: keywordstyle=\color{solarized-green},
+#+LATEX_HEADER: identifierstyle=\color{solarized-blue},
+#+LATEX_HEADER: stringstyle=\color{solarized-cyan},
+#+LATEX_HEADER: moredelim = *[l][\color{solarized-orange}]{\#},
+#+LATEX_HEADER: moredelim = **[s][\color{solarized-cyan}]{<}{>},
+#+LATEX_HEADER: rulecolor=\color{black},
+#+LATEX_HEADER: literate={{\%d}}{{\textcolor{solarized-red}{\%d}}}2
+#+LATEX_HEADER:           {{\%2d}}{{\textcolor{solarized-red}{\%2d}}}3
+#+LATEX_HEADER:           {{\\n}}{{\textcolor{solarized-red}{\textbackslash{}n}}}2,
+#+LATEX_HEADER: }
+
+#+begin_export latex
+\newpage % Go to the next page after title page
+#+end_export
+
+* Task #1: RMI Server
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+Setting up the sample code given for the lab was not straight forward. After downloading and laying out the directory
+structure, I wasn't able to compile everything smoothly in the beginning. Since I was using maven to compile my project
+I kept on getting exceptions when trying to run the File server. Some of my freinds who were using IDEs also had the
+same problem. After which I gave up and used the basic =javac= and =java= commands to compile and run the server. Did
+the same for the Client.
+
+Understanding what's the purpose of each of the classes, how does the =rmiregistry= service works, and how to give
+higher permissions to a java service was the challenges faced during the lab.
+
+After this Task I learned how to fileserver converts file into byte data to sent it over the network and why it is
+better to use a RMI service compared to a basic Client server model.
+
+* Task #2: Enhanced RMI Server
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+For this task we had to analyze the Server and Client applications and add extra messages, to give the user feedback
+when running the Server and the Client. To find out the address of the client connected I used
+=UnicastRemoteObject.getClientHost()= . Then added messages on the server side and client side to show the user,
+file transaction have been made.
+
+Finding how to get the client ip data was one of the challenges faced during the task.
+
+After this task, I learned all the function implementations that supported the file transfer between the client and
+server.
+
+* Task #3: Truly distributed RMI Server
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+For this task we had to make changes to the Server and client so we could connect to other machines. On the server side
+I changed =localhost= address to my own static IP so others could connect to my RMI server. On the client side I made
+changes to the server address I am connecting from localhost to another lab member's RMI server. Now I was able to download file
+from the other member's RMI service.
+
+At first I was not able to let anyone connect to my server because of firewall issues, after some research I was able to
+solve this. Then I was able to connect to other servers and others could connect to my server.
+
+After this task I learned how easy it to make your distributed service available to others when using an RMI server.
+
+* Task #4: File upload Server
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+For this task, we had to implement and file upload service where the Client can upload a file to the server. For this
+task on the server side I used =BufferedOutputStream= to initialize an output stream to collect the data from the client
+and write to a file. On the Client side I used =BufferedInputStream= to convert a file into byte array and then sent it
+over to the Server. On both Client and Server side I added this interface function =uploadFile(byte[] content, String
+filename)=
+
+Understanding how byte array can be converted back and forth between binary data and byte array in JAVA was one of the
+challenges faced.  I also learned how to implement new interface functions to an existing Server Client setup.
+
+After this task, I understood how easy it is to extend a RMI Server - Client model with new functionalities.
+
