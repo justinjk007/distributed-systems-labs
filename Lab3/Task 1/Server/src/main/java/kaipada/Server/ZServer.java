@@ -11,10 +11,12 @@ public class ZServer {
 	    //  Socket to talk to clients
 	    ZMQ.Socket socket = context.createSocket(SocketType.REP);
 	    socket.bind("tcp://*:5555");
-
-	    byte[] reply = socket.recv(0);
-	    System.out.println("Received " + ": [" + new String(reply, ZMQ.CHARSET) + "]");
-	    String response = "Hello from the server!";
-	    socket.send(response.getBytes(ZMQ.CHARSET), 0);
+	    while (!Thread.currentThread().isInterrupted()) {
+		byte[] reply = socket.recv(0);
+		System.out.println("Received " + ": [" + new String(reply, ZMQ.CHARSET) + "]");
+		String response = "Hello from the server!";
+		socket.send(response.getBytes(ZMQ.CHARSET), 0);
+	    }
 	}
-    }}
+    }
+}
