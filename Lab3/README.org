@@ -1,0 +1,6 @@
+* MVN notes
+
+#+begin_src sh
+mvn archetype:generate -DgroupId=kaipada.Client -DartifactId=Client -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+mvn archetype:generate -DgroupId=kaipada.Server -DartifactId=Server -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+#+end_src
