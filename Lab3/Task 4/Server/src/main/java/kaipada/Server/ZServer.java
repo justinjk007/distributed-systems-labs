@@ -28,8 +28,7 @@ public class ZServer
                 population = srandom.nextInt(215654) - 15 + 1;
 
                 //  Send message to all subscribers
-                String update = String.format(
-                    "%04d %d", zipcode, population);
+                String update = String.format("%04d %d", zipcode, population);
                 System.out.println(update);
                 publisher.send(update, 0);
 	    }

@@ -1,0 +1,132 @@
+#+OPTIONS: toc:nil num:nil
+#+TITLE: LAB 3 - REPORT
+#+AUTHOR: Justin Kaipada - 100590167
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper,12pt]
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % For times new roman font
+#+LATEX_HEADER: \usepackage{mathptmx} % For times new roman font
+#+LATEX_HEADER: \linespread{1.3} % Change line spacing
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{soul}
+#+LATEX_HEADER: \usepackage{helvet}
+#+LATEX_HEADER: \usepackage{listings}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage{xcolor-solarized}
+#+LATEX_HEADER: \definecolor{foreground}{RGB}{184, 83, 83} % For verbatim
+#+LATEX_HEADER: \definecolor{background}{RGB}{255, 231, 231} % For verbatim
+#+LATEX_HEADER: \let\OldTexttt\texttt
+#+LATEX_HEADER: \renewcommand{\texttt}[1]{\OldTexttt{\footnotesize\colorbox{background}{\textcolor{foreground}{#1}}}}
+#+LATEX_HEADER: \newenvironment{helvetica}{\fontfamily{phv}\selectfont}{\par}
+#+LATEX_HEADER: \usepackage{hyperref} % Make the hyper-links prettier
+#+LATEX_HEADER: \hypersetup{
+#+LATEX_HEADER: colorlinks=true,
+#+LATEX_HEADER: linkcolor=blue!70!white,
+#+LATEX_HEADER: urlcolor=blue!95!black
+#+LATEX_HEADER: }
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \setlist[1]{itemsep=5pt}
+#+LATEX_HEADER: \lstdefinelanguage{cpp}{
+#+LATEX_HEADER: language=C++,
+#+LATEX_HEADER: morekeywords={cerr,exit,string},
+#+LATEX_HEADER: deletekeywords={...},
+#+LATEX_HEADER: escapeinside={\%*}{*)},
+#+LATEX_HEADER: showspaces=false,
+#+LATEX_HEADER: showstringspaces=false,
+#+LATEX_HEADER: showtabs=false,
+#+LATEX_HEADER: stepnumber=1,
+#+LATEX_HEADER: tabsize=4,
+#+LATEX_HEADER: breakatwhitespace=false,
+#+LATEX_HEADER: breaklines=true,
+#+LATEX_HEADER: backgroundcolor=\color{solarized-base3},
+#+LATEX_HEADER: basicstyle=\scriptsize\ttfamily\color{solarized-base0},
+#+LATEX_HEADER: commentstyle=\itshape\color{solarized-base01},
+#+LATEX_HEADER: keywordstyle=\color{solarized-green},
+#+LATEX_HEADER: identifierstyle=\color{solarized-blue},
+#+LATEX_HEADER: stringstyle=\color{solarized-cyan},
+#+LATEX_HEADER: moredelim = *[l][\color{solarized-orange}]{\#},
+#+LATEX_HEADER: moredelim = **[s][\color{solarized-cyan}]{<}{>},
+#+LATEX_HEADER: rulecolor=\color{black},
+#+LATEX_HEADER: literate={{\%d}}{{\textcolor{solarized-red}{\%d}}}2
+#+LATEX_HEADER:           {{\%2d}}{{\textcolor{solarized-red}{\%2d}}}3
+#+LATEX_HEADER:           {{\\n}}{{\textcolor{solarized-red}{\textbackslash{}n}}}2,
+#+LATEX_HEADER: }
+
+#+begin_export latex
+\newpage % Go to the next page after title page
+#+end_export
+
+* Task #1: Java ZeroMQ
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+To finish this task, I used the files the lab directors supplied. from the Pre-Lab tutorial I had
+learned about the basics of Java ZeroMQ. On the Server side I binded the server to a port and then
+on client side I tried to connect to that same port with =socket.connect("tcp://localhost:5555");=
+once the connection was established, I can send messages in bytes form using =socket.send= and
+receive messages using =socket.recv=. On the Server side I accepted messages first and then replied
+with a message a saying connection is successful.  
+
+Challenges faced include setting up Server and Client classes and trying to compile it with the
+support of *ZMQ* library. The example code supplied was slightly different from the official
+documentation example so once I sorted out the differences, the server and client ran correctly.
+
+With this task I learned the basics of *ZeroMQ* and how to use the *ZMQ* package to setup a ZeroMQ
+server and client connection. I also learned how to use Maven to download necessary dependencies
+while using ZMQ.
+
+* Task #2: Prime numbers
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+For this task we had to collect a number from the user and sent it over to the server and receive
+the prime numbers up to that number. For this I used =Scanner= to get input from user as string, and
+send it over to Server. On the server side I converted the string into a number and generated the
+prime numbers up to that number. Then I converted all those into a string and sent it back to the
+client for display. 
+
+No challenges were faced during the completion of this task.
+
+After this task I learned about the downsides of ZeroMQ, and how unlike Java RMI, Data types inter
+processable between the client and server is just =Bytes= . So any type of datatype has to be
+converted to bytes which makes the code less strongly typed.
+
+* Task #3: Reverse string continuous loop
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+For this task we had to collect a string from the user and sent it over to server so it can be
+reversed and sent back to simulate processing. This was very simular to task #2 but this also needed
+to be continues so the input and connection from the client stayed alive until we ask it close the
+connection. For this I added a while loop which ran forever asking for more inputs from the user and
+just exited the loop if the user entered the keyword /Close/.
+
+No challenges where faced during this task.
+
+After this task I learned how to make the connection between Client and Server stay alive until we
+interrupt it. This also showed me how fast and reactive the connection is when using ZeroMQ.
+
+* Task #4: ZeroMQ - Publish and Subscribe
+# - Explain how you accomplished the task
+# - Describe any challenges you faced with the tasks and how you solved them.
+# - What did you learn?
+
+This task was different from others, as for this task we had to convert the *Publish* and
+*Subscribe* model. For this both sides of the connection we made sockets like this
+=createSocket(SocketType.PUB)=. This tells ZeroMQ that the connection type is broadcast. After that
+to emulate the Population and Postal code data I generated random values for both and broadcast it
+using =publisher.send(update,0)=. On the client side it just picks up what matches the ZIP code it
+subscribed with.
+
+Understating the basics of the Publish and Subscribe mechanism and getting the semantics like
+correct string format was couple of the challenges faced during this task. It took few amount of
+tries to get the correct information I needed from the Server.
+
+After this task I learned how the broadcasting connection within ZeroMQ can be useful and what
+scenarios benefit from it. I understood how the Publish and Subscribe model can be useful in
+situations where data is continuously updated from the server side and how easy it is program it
+into Distributed system in ZeroMQ.
+
+# The submission confirmation number is 034aee57-3f2c-4060-b8ad-8971b270fc37.
