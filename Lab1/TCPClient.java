@@ -1,4 +1,4 @@
-import java.util.Scanner;  // Import the Scanner class
+import java.util.Scanner;  // For reading user input
 import java.io.*;
 import java.io.DataInputStream;
 import java.net.*;
