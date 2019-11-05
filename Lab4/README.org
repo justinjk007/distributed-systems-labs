@@ -1,0 +1,5 @@
+* MVN notes
+
+#+begin_src sh
+mvn archetype:generate -DgroupId=kaipada.Lamport -DartifactId=Lamport -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+#+end_src
