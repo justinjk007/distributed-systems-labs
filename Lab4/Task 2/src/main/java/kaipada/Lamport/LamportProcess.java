@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.lang.management.ThreadMXBean;
 
 
 public class LamportProcess extends Thread {
@@ -23,22 +26,30 @@ public class LamportProcess extends Thread {
         public static final int ACTIONC = 3;
         public int action;
         public int target;
-		
+
         public LamportTask(int action) {
-	    // TO DO 1: initialize
+	    // TODO 1: initialize
+	    this.action = action;
+	    this.target = 0;
         }
         public LamportTask(int action, int target) {
-            // TO DO 2: initialize
+            // TODO 2: initialize
+	    this.action = action;
+	    this.target = target;
         }
     }
 
     private static class OutPrinter {
         public synchronized void print1(int procNum, int taskNum, int clockValue, LamportTask task) {
-            System.out.printf("Process %d: Task %d: clock=%d",
-                procNum, taskNum, clockValue);
-			// TO DO 3: Check what task it is (task.action) and print info accordingly
-			
-            System.out.println();
+            System.out.printf("Process %d: Task %d: clock=%d",procNum, taskNum, clockValue);
+	    // TODO 3: Check what task it is (task.action) and print info accordingly
+	    if (task.action == 1) {
+	    	System.out.println(" SEND\n");
+	    } else if (task.action == 2) {
+	    	System.out.println(" RECEIVE\n");
+	    } else {
+	    	System.out.println(" LOCAL\n");
+	    }
         }
         public synchronized void prints(String input) {
             System.out.print(input);
@@ -46,13 +57,11 @@ public class LamportProcess extends Thread {
     }
 
     public int GetPID() {
-        // TO DO 4: return process id
+        // TODO 4: return process id
+	return pid;
     }
 
-    public LamportProcess(
-        OutPrinter print,
-        int pid, List<LamportProcess> pList, List<LamportTask> tasks
-    ) {
+    public LamportProcess(OutPrinter print,int pid, List<LamportProcess> pList, List<LamportTask> tasks) {
         this.print = print;
         this.pid = pid;
         this.pList = pList;
@@ -62,15 +71,10 @@ public class LamportProcess extends Thread {
 
     public static void main(String[] args) {
         OutPrinter printer = new OutPrinter();
-
         List<LamportProcess> pList = new ArrayList<LamportProcess>();
-
-
         Scanner sc=new Scanner(System.in);
-
-        System.out.print("How many processes? ");
+        System.out.println("How many processes? ");
         int pcount = sc.nextInt();
-
         // Create the processes
         for (int i=0; i < pcount; i++) {
             System.out.printf("Working with process %d\n", i+1);
@@ -87,31 +91,26 @@ public class LamportProcess extends Thread {
 
     public static List<LamportTask> makeD2Tasks(int pid) {
         List<LamportTask> list = new ArrayList<LamportTask>();
-		
-		// TO DO 5: based on the pid (1, 2 or 3) , add the necessary tasks to the list
-
+	// TODO 5: based on the pid (1, 2 or 3) , add the necessary tasks to the list
         return list;
     }
 
     public static List<LamportTask> makeUserTasks(Scanner sc) {
-        List<LamportTask> list = new ArrayList<LamportTask>();       
-        System.out.print("How many tasks? ");
+        List<LamportTask> list = new ArrayList<LamportTask>();
+        System.out.println("How many tasks? ");
         int ntasks = sc.nextInt();
         for (int t=0; t < ntasks; t++) {
             System.out.println("Enter 1 for SEND, 2 for RECV, 3 for LOCL");
-            System.out.print("> ");
+            System.out.println("> ");
             int action = sc.nextInt();
             int target = 0;
-
             if (action == LamportTask.ACT_SEND) {
                 System.out.println("To which process it's sending?");
-				System.out.print("> ");
+		System.out.println("> ");
                 target = sc.nextInt();
             }
-
             list.add(new LamportTask(action, target));
         }
-
         return list;
     }
 
@@ -124,9 +123,7 @@ public class LamportProcess extends Thread {
     }
 
     private static LamportTask makeRandomTask() {
-        int action = ThreadLocalRandom.current().nextInt(
-            1,LamportTask.ACTIONC
-        );
+        int action = ThreadLocalRandom.current().nextInt(1,LamportTask.ACTIONC);
         LamportTask task = new LamportTask(action);
         return task;
     }
@@ -135,10 +132,14 @@ public class LamportProcess extends Thread {
         int taskNum = 0;
         for (LamportTask task : this.tasks) {
             taskNum++;
-
-			// TO DO 6: check the task.action and process the tasks accordingly
-
-
+	    // TODO 6: check the task.action and process the tasks accordingly
+	    if (task.action == 1) {
+		this.clock.sendEvent();
+	    } else if (task.action == 2) {
+		this.clock.receiveEvent(1,this.clock.getValue()+1);
+	    } else {
+		this.clock.localStep();
+	    }
             this.print.print1(this.pid, taskNum, this.clock.getValue(), task);
         }
     }
