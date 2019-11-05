@@ -33,6 +33,10 @@ public class VectorClock {
    public int getValue(int i) {
       return v[i];
    }
+
+    public int[] getVector() {
+	return v;
+    }
    
    public int max(int a, int b) {
       if(a>b) {

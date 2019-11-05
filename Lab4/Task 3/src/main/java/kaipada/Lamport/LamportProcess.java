@@ -10,7 +10,8 @@ import java.lang.management.ThreadMXBean;
 
 
 public class LamportProcess extends Thread {
-    private LamportClock clock;
+    // private LamportClock clock;
+    private VectorClock clock;
     private int pid;
     private List<LamportProcess> pList;
     private List<LamportTask> tasks;
@@ -40,8 +41,8 @@ public class LamportProcess extends Thread {
     }
 
     private static class OutPrinter {
-        public synchronized void print1(int procNum, int taskNum, int clockValue, LamportTask task) {
-            System.out.printf("Process %d: Task %d: clock=%d",procNum, taskNum, clockValue);
+        public synchronized void print1(int procNum, int taskNum, String clockValue, LamportTask task) {
+            System.out.printf("Process %d: Task %d: clock=%s",procNum, taskNum, clockValue);
 	    // TODO 3: Check what task it is (task.action) and print info accordingly
 	    if (task.action == 1) {
 	    	System.out.println(" SEND\n");
@@ -61,12 +62,13 @@ public class LamportProcess extends Thread {
 	return pid;
     }
 
-    public LamportProcess(OutPrinter print,int pid, List<LamportProcess> pList, List<LamportTask> tasks) {
+    public LamportProcess(OutPrinter print,int pid, List<LamportProcess> pList, List<LamportTask> tasks, int totalProcNum) {
         this.print = print;
         this.pid = pid;
         this.pList = pList;
         this.tasks = tasks;
-        this.clock = new LamportClock();
+        // this.clock = new LamportClock();
+        this.clock = new VectorClock(totalProcNum, pid-1);
     }
 
     public static void main(String[] args) {
@@ -79,7 +81,7 @@ public class LamportProcess extends Thread {
         for (int i=0; i < pcount; i++) {
             System.out.printf("Working with process %d\n", i+1);
             List<LamportTask> tasks = makeUserTasks(sc);
-            LamportProcess proc = new LamportProcess(printer, i+1, pList, tasks);
+            LamportProcess proc = new LamportProcess(printer, i+1, pList, tasks, pcount);
             pList.add(proc);
         }
 
@@ -136,18 +138,23 @@ public class LamportProcess extends Thread {
 	    if (task.action == 1) {
 		this.clock.sendEvent();
 	    } else if (task.action == 2) {
-		this.clock.receiveEvent(1,this.clock.getValue()+1);
+		this.clock.receiveEvent(this.clock.getVector());
 	    } else {
 		this.clock.localStep();
 	    }
-            this.print.print1(this.pid, taskNum, this.clock.getValue(), task);
+	    int [] temp_v = this.clock.getVector();
+	    String temp = "";
+	    for (int i = 0; i < 3; i++) {
+		temp += temp_v[i] + ",";
+	    }
+            this.print.print1(this.pid, taskNum, temp , task);
         }
     }
 
     private void sendClock(int rpid) {
         for (LamportProcess proc : this.pList) {
             if (proc.pid == rpid) {
-                proc.onReceive(this.clock.getValue());
+                proc.onReceive(this.clock.getValue(this.pid));
                 return;
             }
         }
