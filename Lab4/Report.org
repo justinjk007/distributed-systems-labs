@@ -1,0 +1,107 @@
+#+OPTIONS: toc:nil num:nil
+#+TITLE: LAB 4 - REPORT
+#+AUTHOR: Justin Kaipada - 100590167
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper,12pt]
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % For times new roman font
+#+LATEX_HEADER: \usepackage{mathptmx} % For times new roman font
+#+LATEX_HEADER: \linespread{1.3} % Change line spacing
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{soul}
+#+LATEX_HEADER: \usepackage{helvet}
+#+LATEX_HEADER: \usepackage{listings}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage{xcolor-solarized}
+#+LATEX_HEADER: \definecolor{foreground}{RGB}{184, 83, 83} % For verbatim
+#+LATEX_HEADER: \definecolor{background}{RGB}{255, 231, 231} % For verbatim
+#+LATEX_HEADER: \let\OldTexttt\texttt
+#+LATEX_HEADER: \renewcommand{\texttt}[1]{\OldTexttt{\footnotesize\colorbox{background}{\textcolor{foreground}{#1}}}}
+#+LATEX_HEADER: \newenvironment{helvetica}{\fontfamily{phv}\selectfont}{\par}
+#+LATEX_HEADER: \usepackage{hyperref} % Make the hyper-links prettier
+#+LATEX_HEADER: \hypersetup{
+#+LATEX_HEADER: colorlinks=true,
+#+LATEX_HEADER: linkcolor=blue!70!white,
+#+LATEX_HEADER: urlcolor=blue!95!black
+#+LATEX_HEADER: }
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \setlist[1]{itemsep=5pt}
+#+LATEX_HEADER: \lstdefinelanguage{cpp}{
+#+LATEX_HEADER: language=C++,
+#+LATEX_HEADER: morekeywords={cerr,exit,string},
+#+LATEX_HEADER: deletekeywords={...},
+#+LATEX_HEADER: escapeinside={\%*}{*)},
+#+LATEX_HEADER: showspaces=false,
+#+LATEX_HEADER: showstringspaces=false,
+#+LATEX_HEADER: showtabs=false,
+#+LATEX_HEADER: stepnumber=1,
+#+LATEX_HEADER: tabsize=4,
+#+LATEX_HEADER: breakatwhitespace=false,
+#+LATEX_HEADER: breaklines=true,
+#+LATEX_HEADER: backgroundcolor=\color{solarized-base3},
+#+LATEX_HEADER: basicstyle=\scriptsize\ttfamily\color{solarized-base0},
+#+LATEX_HEADER: commentstyle=\itshape\color{solarized-base01},
+#+LATEX_HEADER: keywordstyle=\color{solarized-green},
+#+LATEX_HEADER: identifierstyle=\color{solarized-blue},
+#+LATEX_HEADER: stringstyle=\color{solarized-cyan},
+#+LATEX_HEADER: moredelim = *[l][\color{solarized-orange}]{\#},
+#+LATEX_HEADER: moredelim = **[s][\color{solarized-cyan}]{<}{>},
+#+LATEX_HEADER: rulecolor=\color{black},
+#+LATEX_HEADER: literate={{\%d}}{{\textcolor{solarized-red}{\%d}}}2
+#+LATEX_HEADER:           {{\%2d}}{{\textcolor{solarized-red}{\%2d}}}3
+#+LATEX_HEADER:           {{\\n}}{{\textcolor{solarized-red}{\textbackslash{}n}}}2,
+#+LATEX_HEADER: }
+
+#+begin_export latex
+\newpage % Go to the next page after title page
+#+end_export
+
+* Task #1: Visualizing Lamport Logical Clocks
+# For Task (1), discuss the results of sample run (1) and (2). Did it
+# show the expected output? If no then what should be the correct
+# output?  Why the visual presentation is important to understand the
+# logical clock relationship?What did you learn from Task 1? Did you
+# face any difficulty? If so mention that.(10marks)
+
+Task 1 of the lab was done to understand Lamport's way of using logical clocks to synchronize events
+in a distributed system. Lamport system provided a simple way of maintaining clocks using simple
+counters so events can be executed in the right order to a certain extend. After entering the
+correct number of events and event times to the already given the the outputs matched the expected
+results. The visual representation makes it easy to understand how many process are involved, how
+many tasks each process and what is happening at each stage of the counters, the visual makes it
+easy to see where tasks originated from and which process it is going to. No difficulty was faced
+during this task, once I understood Lamport Logical clocks are simply based on basic counters and
+each event can only happen if its counter is bigger than the host, made the task easy to do.
+
+file:assets/task1figure2.png
+
+#+begin_center
+Figure 1: This image shows the results from the second entry part of task 1
+#+end_center
+
+* Task #2: Logical Timestamps
+# What did you learn from Task 2? What challenges did you face and how did you solve that?Now, given
+# two events a and b, if event a →b, then Lamport timestamp of a is less than Lamport timestamp of b,
+# i.e.  L(a) < L(b).  However, theconverse is not true (if L(a) < L(b) then we cannot infer that
+# a→b). Discuss specific examples or events from your sample run for Task (2) to demonstrate both
+# cases.
+
+Task 2 was done to learn how Lamport clocks can be used to get the timing of order events that might
+take place between multiple processes in a distributed system. With this system if we know when
+processes need to communicate to other nodes in a distributed system along with other local
+processes in an orderly manner, we know if the order is correct with what we expect to happen. Task
+2 simulated the fast and correct order in which these processes might communicate while maintaining
+the order of the events.
+
+According to Lamport a→b, then timestamp of a should be less than b, So for
+example based on the sample run we used Process 1 sends data to process 2 as part of its lifetime,
+at which point the clock counter of process 1 is 2 and the when process 2 receives it its clock
+counter is 3, so it is correct to receive that data and process it.
+
+Lamport also says that if the timestamp of *a* is less than *b* we are not totally sure if the event
+*a* happened before *b*, this could the case where a happened in a process where many task more that
+that of other taken place independently of the process one, making it count more tasks than the
+other.
+
+# PDF was produced with errors but that's fine
+
+
