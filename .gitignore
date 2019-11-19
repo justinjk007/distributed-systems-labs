@@ -3,3 +3,4 @@
 *.pdf
 /Lab3/Task 1/Client/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
 target/
+RingProcess.class
