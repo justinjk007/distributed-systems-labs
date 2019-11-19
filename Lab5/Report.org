@@ -1,0 +1,93 @@
+#+OPTIONS: toc:nil num:nil
+#+TITLE: LAB 5 - REPORT
+#+AUTHOR: Justin Kaipada - 100590167
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper,12pt]
+#+LATEX_HEADER: \usepackage[T1]{fontenc} % For times new roman font
+#+LATEX_HEADER: \usepackage{mathptmx} % For times new roman font
+#+LATEX_HEADER: \linespread{1.2} % Change line spacing
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{soul}
+#+LATEX_HEADER: \usepackage{helvet}
+#+LATEX_HEADER: \usepackage{listings}
+#+LATEX_HEADER: \usepackage{inconsolata}
+#+LATEX_HEADER: \usepackage{xcolor-solarized}
+#+LATEX_HEADER: \definecolor{foreground}{RGB}{184, 83, 83} % For verbatim
+#+LATEX_HEADER: \definecolor{background}{RGB}{255, 231, 231} % For verbatim
+#+LATEX_HEADER: \let\OldTexttt\texttt
+#+LATEX_HEADER: \renewcommand{\texttt}[1]{\OldTexttt{\footnotesize\colorbox{background}{\textcolor{foreground}{#1}}}}
+#+LATEX_HEADER: \newenvironment{helvetica}{\fontfamily{phv}\selectfont}{\par}
+#+LATEX_HEADER: \usepackage{hyperref} % Make the hyper-links prettier
+#+LATEX_HEADER: \hypersetup{
+#+LATEX_HEADER: colorlinks=true,
+#+LATEX_HEADER: linkcolor=blue!70!white,
+#+LATEX_HEADER: urlcolor=blue!95!black
+#+LATEX_HEADER: }
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \setlist[1]{itemsep=5pt}
+#+LATEX_HEADER: \lstdefinelanguage{cpp}{
+#+LATEX_HEADER: language=C++,
+#+LATEX_HEADER: morekeywords={cerr,exit,string},
+#+LATEX_HEADER: deletekeywords={...},
+#+LATEX_HEADER: escapeinside={\%*}{*)},
+#+LATEX_HEADER: showspaces=false,
+#+LATEX_HEADER: showstringspaces=false,
+#+LATEX_HEADER: showtabs=false,
+#+LATEX_HEADER: stepnumber=1,
+#+LATEX_HEADER: tabsize=4,
+#+LATEX_HEADER: breakatwhitespace=false,
+#+LATEX_HEADER: breaklines=true,
+#+LATEX_HEADER: backgroundcolor=\color{solarized-base3},
+#+LATEX_HEADER: basicstyle=\scriptsize\ttfamily\color{solarized-base0},
+#+LATEX_HEADER: commentstyle=\itshape\color{solarized-base01},
+#+LATEX_HEADER: keywordstyle=\color{solarized-green},
+#+LATEX_HEADER: identifierstyle=\color{solarized-blue},
+#+LATEX_HEADER: stringstyle=\color{solarized-cyan},
+#+LATEX_HEADER: moredelim = *[l][\color{solarized-orange}]{\#},
+#+LATEX_HEADER: moredelim = **[s][\color{solarized-cyan}]{<}{>},
+#+LATEX_HEADER: rulecolor=\color{black},
+#+LATEX_HEADER: literate={{\%d}}{{\textcolor{solarized-red}{\%d}}}2
+#+LATEX_HEADER:           {{\%2d}}{{\textcolor{solarized-red}{\%2d}}}3
+#+LATEX_HEADER:           {{\\n}}{{\textcolor{solarized-red}{\textbackslash{}n}}}2,
+#+LATEX_HEADER: }
+
+#+begin_export latex
+\newpage % Go to the next page after title page
+#+end_export
+
+* Task #2: Chang and Roberts Algorithm
+# a.Discuss the result of your sample run
+# b.What challenges did you face and how did you solve them?
+# c.What are the worst performing and best performing cases when a
+# process initiates the election? How many messages will be sent in both
+# cases? Discuss your answer.
+
+1) I used Chang and Roberts Algorithm for leader selection. During the test run, the process 5 had
+   the greatest ID, so it was destined to be the leader and the correctness of my implementation was
+   proved when the algorithm picked 5 as the leader. During the test run process 3 started the
+   leader selection process. It compared its ID with its adjacent process which is process 4, which
+   had the lower ID value of the 2, so right now process 3 was still the leader. Then process 3
+   compared its ID(4) to process 5's ID(5) so process 5 is greater, so process 5 became the new
+   leader. But process 5 still don't know if it is the leader so it started comparing to its
+   adjacent process 1 and so on. At last process 5 compared its id to itself finalizing the fact
+   that it is the greatest process in the group hence completing the leader selection.
+2) Some of the challenges faced during implementation visualizing the fact that array of processes
+   should be a ring and that processes 5 should come next to process 1. This was then solved by
+   simply rotating the process comparisons back to 1 when the comparisons reached maximum number of
+   processes existing in the problem.
+   #+begin_src cpp
+   if(id > maximum_num_of_proc) 
+     id = 1;
+   #+end_src
+3) By design the Ring algorithm have a worst time complexity of *O(n^2)*. Worst case is when the
+   process who initiates the election process is adjacent to the process who have the greatest id or
+   is the leader. This would mean the algorithm to go around the loop once to get to the leader and
+   then another loop to confirm that process actually have the greatest ID of them all. In the worst
+   case =N-1= messages will be sent to get to the leader first. Then another =N= messages to confirm
+   it is the leader by doing another loop.
+
+   The best case is when the process initiating the election itself is the leader, this means it
+   only needs to go around the rung one time after which it will compare its ID to itself completing
+   the comparisons. In which case total messages passed would be =N= to complete the ring.
+ 
+
