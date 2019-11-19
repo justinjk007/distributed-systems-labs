@@ -28,14 +28,14 @@ public class RingProcess {
 	while (true) {
 	    System.out.println("Comparing process "+to+" to "+from);
 	    if(id[from] > id[to]) {
-		to++;
+		to++;		// If from is still higher don't change it, move on
 	    }
 	    else if(id[from] < id[to]) {
-		from = to;
+		from = to;	// New leader
 		to++;
 	    }
 	    else{
-		System.out.println("Leader is "+from);
+		System.out.println("Leader is "+from); // Leader of the motherland
 		break;
 	    }
 
